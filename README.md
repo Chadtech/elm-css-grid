@@ -2,6 +2,10 @@
 
 This package provides a simple css grid system for Elm projects that use `rtfeldman/elm-css`.
 
+The example in thie Ellie app is probably the best demonstration of what this package does: https://ellie-app.com/3mJZpKYvBz7a1
+
+![elm css grid](https://i.imgur.com/BxPDxe3.png)
+
 # Whats this all about?
 
 Ive heard whats been referred to as 'the lie of css', which is that despite obstensibly being about style sheets its not really about styling. What it would seem like, is that html is about laying stuff out on a page, and css is about styling it. But thats not really true. If you want to lay stuff out on a page you are going to have to mess around with css. The concepts of styling and laying out dont neatly correspond to the two technologies of html and css, unfortunately. At this point in web development its just a big coincedence with misleading names. Altho this arrangement doesnt make sense, its still how things are. Im sure if we started from scratch we could make something better (something like the Elm package `mdgriffith/elm-ui`).
