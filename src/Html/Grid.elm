@@ -4,6 +4,37 @@ module Html.Grid exposing
     , row
     )
 
+{-|
+
+    import Html.Grid as Grid
+    import Html.Styled
+
+    view : Html.Styled.Html msg
+    view =
+        Grid.container
+            []
+            [ Grid.row
+                []
+                [ Grid.column
+                    []
+                    [ Html.text "Hello from upper left column" ]
+                , Grid.column
+                    []
+                    [ Html.text "Hello from upper right column" ]
+                ]
+            , Grid.row
+                []
+                [ Grid.column
+                    []
+                    [ Html.text "Hello from lower left column" ]
+                , Grid.column
+                    []
+                    [ Html.text "Hello from lower right column" ]
+                ]
+            ]
+
+-}
+
 import Css exposing (..)
 import Html.Styled as Html
     exposing
@@ -16,14 +47,10 @@ import Html.Styled.Attributes exposing (css)
 
 {-| Just a container for grids. Its not necessary, but it will get you off to a good start.
 
-    import Html.Grid as Grid
+    -- containers are styled with the css:
+    --     margin: 0 auto;
 
-    view =
-        Grid.container
-            []
-            [ Grid.row [] []
-            , Grid.row [] []
-            ]
+
 
 -}
 container : List Style -> List (Html msg) -> Html msg
@@ -37,6 +64,15 @@ containerStyle =
         |> Css.batch
 
 
+{-| A row in a grid
+
+    -- rows are styled with the css:
+    --     display: flex;
+    --     flex-direction: row;
+
+
+
+-}
 row : List Style -> List (Html msg) -> Html msg
 row styles =
     node "row" [ css [ rowStyle, Css.batch styles ] ]
@@ -46,11 +82,20 @@ rowStyle : Style
 rowStyle =
     [ displayFlex
     , flexDirection Css.row
-    , boxSizing borderBox
     ]
         |> Css.batch
 
 
+{-| A column in a grid
+
+    -- columns are styled with the css:
+    --     flex-basis: 100%;
+    --     flex: 1;
+    --     display: flex;
+
+
+
+-}
 column : List Style -> List (Html msg) -> Html msg
 column styles =
     node "column" [ css [ columnStyle, Css.batch styles ] ]
@@ -59,7 +104,6 @@ column styles =
 columnStyle : Style
 columnStyle =
     [ flexBasis (pct 100)
-    , boxSizing borderBox
     , flex (int 1)
     , displayFlex
     ]
