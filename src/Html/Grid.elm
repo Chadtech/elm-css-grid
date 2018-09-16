@@ -1,8 +1,4 @@
-module Html.Grid exposing
-    ( column
-    , container
-    , row
-    )
+module Html.Grid exposing (container, row, column)
 
 {-|
 
@@ -32,6 +28,8 @@ module Html.Grid exposing
                     [ Html.text "Hello from lower right column" ]
                 ]
             ]
+
+@docs container, row, column
 
 -}
 
