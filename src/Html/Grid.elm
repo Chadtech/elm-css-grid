@@ -1,4 +1,7 @@
-module Html.Grid exposing (container, row, column)
+module Html.Grid exposing
+    ( Cell, row, cell
+    , column
+    )
 
 {-|
 
@@ -7,59 +10,70 @@ module Html.Grid exposing (container, row, column)
 
     view : Html.Styled.Html msg
     view =
-        Grid.container
-            []
+        Html.Styled.div
             [ Grid.row
                 []
-                [ Grid.column
+                [ Grid.cell
                     []
-                    [ Html.text "Hello from upper left column" ]
-                , Grid.column
+                    [ Html.text "Hello from upper left corner" ]
+                , Grid.cell
                     []
-                    [ Html.text "Hello from upper right column" ]
+                    [ Html.text "Hello from upper right corner" ]
                 ]
             , Grid.row
                 []
-                [ Grid.column
+                [ Grid.cell
                     []
-                    [ Html.text "Hello from lower left column" ]
-                , Grid.column
+                    [ Html.text "Hello from lower left corner" ]
+                , Grid.cell
                     []
-                    [ Html.text "Hello from lower right column" ]
+                    [ Html.text "Hello from lower right corner" ]
                 ]
             ]
 
-@docs container, row, column
+@docs Cell, row, cell, box
 
 -}
 
-import Css exposing (..)
+import Css exposing (Style, displayFlex, flex, flexBasis, flexDirection, pct)
 import Html.Styled as Html
     exposing
         ( Attribute
         , Html
-        , node
         )
-import Html.Styled.Attributes exposing (css)
+import Html.Styled.Attributes as Attr
 
 
-{-| Just a container for grids. Its not necessary, but it will get you off to a good start.
+type Cell msg
+    = Cell (List Style) (List (Html msg))
 
-    -- containers are styled with the css:
-    --     margin: 0 auto;
+
+{-|
+
+    -- cells are styled with the css:
+    --     flex-basis: 100%;
+    --     flex: 1;
+    --     display: flex;
 
 
 
 -}
-container : List Style -> List (Html msg) -> Html msg
-container styles =
-    node "container" [ css [ containerStyle, Css.batch styles ] ]
+cell : List Style -> List (Html msg) -> Cell msg
+cell =
+    Cell
 
 
-containerStyle : Style
-containerStyle =
-    [ margin2 zero auto ]
-        |> Css.batch
+cellToHtml : Cell msg -> Html msg
+cellToHtml (Cell styles children) =
+    Html.node "cell"
+        [ Attr.css
+            [ flexBasis (pct 100)
+            , flex (int 1)
+            , displayFlex
+            , Css.batch styles
+            ]
+        ]
+        children
 
 
 {-| A row in a grid
@@ -71,38 +85,13 @@ containerStyle =
 
 
 -}
-row : List Style -> List (Html msg) -> Html msg
-row styles =
-    node "row" [ css [ rowStyle, Css.batch styles ] ]
-
-
-rowStyle : Style
-rowStyle =
-    [ displayFlex
-    , flexDirection Css.row
-    ]
-        |> Css.batch
-
-
-{-| A column in a grid
-
-    -- columns are styled with the css:
-    --     flex-basis: 100%;
-    --     flex: 1;
-    --     display: flex;
-
-
-
--}
-column : List Style -> List (Html msg) -> Html msg
-column styles =
-    node "column" [ css [ columnStyle, Css.batch styles ] ]
-
-
-columnStyle : Style
-columnStyle =
-    [ flexBasis (pct 100)
-    , flex (int 1)
-    , displayFlex
-    ]
-        |> Css.batch
+row : List Style -> List (Cell msg) -> Html msg
+row styles cells =
+    Html.node "row"
+        [ Attr.css
+            [ displayFlex
+            , flexDirection Css.row
+            , Css.batch styles
+            ]
+        ]
+        (List.map cellToHtml cells)
