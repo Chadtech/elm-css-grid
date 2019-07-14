@@ -21,13 +21,13 @@ main =
             [ Grid.column
                 []
                 [ box
-                    red
+                    green
                     "row with two columns of even width"
                 ]
             , Grid.column
                 []
                 [ box
-                    yellowGreen
+                    yellow
                     "row with two columns of even width"
                 ]
             ]
@@ -36,7 +36,7 @@ main =
             [ Grid.column
                 []
                 [ box
-                    greenBlue
+                    gray
                     "row with 50px height and one full-width column"
                 ]
             ]
@@ -63,7 +63,7 @@ main =
                         , Grid.column
                             []
                             [ box
-                                red
+                                green
                                 "upper right"
                             ]
                         ]
@@ -72,7 +72,7 @@ main =
                         [ Grid.column
                             []
                             [ box
-                                greenBlue
+                                gray
                                 "center left"
                             ]
                         , Grid.column
@@ -87,7 +87,7 @@ main =
                         [ Grid.column
                             []
                             [ box
-                                yellowGreen
+                                yellow
                                 "lower left"
                             ]
                         , Grid.column
@@ -111,7 +111,7 @@ main =
             , Grid.column
                 [ height (px 25) ]
                 [ box
-                    red
+                    green
                     "this column is explicitly 25px tall"
                 ]
             , Grid.column
@@ -126,14 +126,14 @@ main =
             [ Grid.column
                 [ margin (px 10) ]
                 [ box
-                    yellowGreen
-                    "columns with varying margins are vertically centered"
+                    yellow
+                    "columns with varying margins are vertically centegreen"
                 ]
             , Grid.column
                 [ margin (px 5) ]
                 [ box
-                    greenBlue
-                    "columns with varying margins are vertically centered"
+                    gray
+                    "columns with varying margins are vertically centegreen"
                 ]
             ]
         , Grid.row
@@ -141,7 +141,7 @@ main =
             [ Grid.column
                 []
                 [ box
-                    red
+                    green
                     "columns with an explicit width stay that width, while the others grow to fill availabile horizontal space"
                 ]
             , Grid.column
@@ -154,7 +154,7 @@ main =
             , Grid.column
                 []
                 [ box
-                    red
+                    green
                     "columns with an explicit width stay that width, while the others grow to fill availabile horizontal space"
                 ]
             , Grid.column
@@ -171,7 +171,7 @@ main =
                 [ Grid.exactWidthColumn (pct 66.67)
                 ]
                 [ box
-                    yellowGreen
+                    yellow
                     "columns can be given relative widths like 66.67%"
                 ]
             , Grid.column
@@ -186,29 +186,29 @@ main =
         |> Html.toUnstyled
 
 
-red : String
-red =
-    "#ff8080"
+green : String
+green =
+    "#7fd13b"
 
 
-yellowGreen : String
-yellowGreen =
-    "#e6ff80"
+yellow : String
+yellow =
+    "#f0ad00"
 
 
-greenBlue : String
-greenBlue =
-    "#80ffb3"
+gray : String
+gray =
+    "#5a6378"
 
 
 blue : String
 blue =
-    "#80b3ff"
+    "#60b5cc"
 
 
 purple : String
 purple =
-    "#e680ff"
+    blue
 
 
 box : String -> String -> Html msg
