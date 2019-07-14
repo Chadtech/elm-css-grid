@@ -4,7 +4,7 @@ This package provides a simple css grid system for Elm projects that use `rtfeld
 
 The example in thie Ellie app is probably the best demonstration of what this package does: https://ellie-app.com/65Hb3tZTqDya1
 
-![elm css grid](https://i.imgur.com/22BIO5V.png)
+![elm css grid](https://i.imgur.com/D2MHRNl.png)
 
 # Whats this all about?
 
