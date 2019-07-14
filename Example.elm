@@ -15,9 +15,7 @@ import Html.Styled.Attributes exposing (css)
 
 main =
     Grid.box
-        [ border3 (px 1) solid (hex "#000000")
-        , display block
-        ]
+        []
         [ Grid.row
             []
             [ Grid.column
