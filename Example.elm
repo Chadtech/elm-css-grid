@@ -7,7 +7,6 @@ import Html.Styled as Html
     exposing
         ( Attribute
         , Html
-        , node
         , p
         )
 import Html.Styled.Attributes exposing (css)
@@ -57,13 +56,13 @@ main =
                         [ Grid.column
                             []
                             [ box
-                                purple
+                                green
                                 "upper left"
                             ]
                         , Grid.column
                             []
                             [ box
-                                green
+                                blue
                                 "upper right"
                             ]
                         ]
@@ -78,7 +77,7 @@ main =
                         , Grid.column
                             []
                             [ box
-                                blue
+                                green
                                 "center right"
                             ]
                         ]
@@ -93,7 +92,7 @@ main =
                         , Grid.column
                             []
                             [ box
-                                purple
+                                gray
                                 "lower right"
                             ]
                         ]
@@ -105,7 +104,7 @@ main =
             [ Grid.column
                 [ height (px 50) ]
                 [ box
-                    purple
+                    yellow
                     "rows with columns of differing heights are as tall as their tallest column"
                 ]
             , Grid.column
@@ -127,13 +126,13 @@ main =
                 [ margin (px 10) ]
                 [ box
                     yellow
-                    "columns with varying margins are vertically centegreen"
+                    "columns with varying margins are vertically centered"
                 ]
             , Grid.column
                 [ margin (px 5) ]
                 [ box
                     gray
-                    "columns with varying margins are vertically centegreen"
+                    "columns with varying margins are vertically centered"
                 ]
             ]
         , Grid.row
@@ -178,7 +177,7 @@ main =
                 [ Grid.exactWidthColumn (pct 33.33)
                 ]
                 [ box
-                    purple
+                    gray
                     " and 33.33%"
                 ]
             ]
@@ -186,36 +185,63 @@ main =
         |> Html.toUnstyled
 
 
-green : String
+green : ElmColor
 green =
-    "#7fd13b"
+    Green
 
 
-yellow : String
+yellow : ElmColor
 yellow =
-    "#f0ad00"
+    Yellow
 
 
-gray : String
+gray : ElmColor
 gray =
-    "#5a6378"
+    Gray
 
 
-blue : String
+blue : ElmColor
 blue =
-    "#60b5cc"
+    Blue
 
 
-purple : String
-purple =
-    blue
+type ElmColor
+    = Green
+    | Yellow
+    | Gray
+    | Blue
 
 
-box : String -> String -> Html msg
-box color comment =
+elmColorToHex : ElmColor -> String
+elmColorToHex color =
+    case color of
+        Green ->
+            "#7fd13b"
+
+        Yellow ->
+            "#f0ad00"
+
+        Gray ->
+            "#5a6378"
+
+        Blue ->
+            "#60b5cc"
+
+
+box : ElmColor -> String -> Html msg
+box boxColor comment =
+    let
+        fontColor : Style
+        fontColor =
+            if boxColor == Gray then
+                color <| hex "#ffffff"
+
+            else
+                color <| hex "#000000"
+    in
     Html.div
         [ css
-            [ backgroundColor (hex color)
+            [ backgroundColor (hex <| elmColorToHex boxColor)
             , height (pct 100)
             , width (pct 100)
             , displayFlex
@@ -226,6 +252,7 @@ box color comment =
             [ css
                 [ display inline
                 , margin zero
+                , fontColor
                 ]
             ]
             [ Html.text comment ]
