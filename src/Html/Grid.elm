@@ -151,7 +151,7 @@ exactWidthColumn width_ =
         |> Css.batch
 
 
-{-| The same as a regular `column`, but with keyed content ( (See Html.Styled.Keyed for more info)[<https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed>][https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed] )
+{-| The same as a regular `column`, but with keyed content ( (See Html.Styled.Keyed for more info)[<https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed>] )
 -}
 keyedColumn : List Style -> List ( String, Html msg ) -> Column msg
 keyedColumn styles children =
@@ -199,7 +199,7 @@ row styles columns =
         (List.map columnToHtml columns)
 
 
-{-| The same as a regular `row`, but with keyed columns ( (See Html.Styled.Keyed for more info)[<https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed>][https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed] )
+{-| The same as a regular `row`, but with keyed columns ( (See Html.Styled.Keyed for more info)[<https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed>] )
 -}
 keyedRow : List Style -> List ( String, Column msg ) -> Html msg
 keyedRow styles columns =

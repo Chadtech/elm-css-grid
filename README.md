@@ -2,7 +2,7 @@
 
 This package provides a simple css grid system for Elm projects that use `rtfeldman/elm-css`.
 
-The example in thie Ellie app is probably the best demonstration of what this package does: https://ellie-app.com/3mNH5mn87Nba1
+The example in thie Ellie app is probably the best demonstration of what this package does: https://ellie-app.com/65GWLRB8vjqa1
 
 ![elm css grid](https://i.imgur.com/22BIO5V.png)
 
