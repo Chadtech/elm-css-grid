@@ -1,9 +1,9 @@
 module Html.Grid exposing
     ( row
-    , Column, column, mapColumn
-    , columnShrink, exactWidthColumn
+    , Col, col, mapCol
+    , colShrink, exactWidthCol, colWithAttrs
     , box
-    , keyedRow, keyedColumn
+    , keyedRow, keyedCol
     )
 
 {-|
@@ -44,12 +44,12 @@ module Html.Grid exposing
 
 # Column
 
-@docs Column, column, mapColumn
+@docs Col, mapCol, colWithAttrs
 
 
 # Column Styling
 
-@docs columnShrink, exactWidthColumn
+@docs colShrink, exactWidthCol
 
 
 # Extras
@@ -59,7 +59,7 @@ module Html.Grid exposing
 
 # Keyed
 
-@docs keyedRow, keyedColumn
+@docs keyedRow, keyedCol
 
 -}
 
@@ -79,11 +79,19 @@ import Html.Styled.Keyed
 
 {-| A Column, a horizontally positioned unit inside a row
 -}
-type Column msg
-    = Column (Html msg)
+type alias Col msg =
+    { styles : List Css.Style 
+    , attrs : List (Attribute msg)
+    , body : ColBody msg 
+    }
 
 
-{-| A column in a row. Give `column` some html and it positions that html horizontally inside a `row`. You can also style it, overriding its default styles.
+type ColBody msg 
+    = ColBody  (List (Html msg))
+    | KeyedCol (List (String, Html msg))
+
+
+{-| A column in a row. Give `col` some html and it positions that html horizontally inside a `row`. You can also style it, overriding its default styles.
 
     -- columns are styled with the css:
     --     flex-basis: 100%;
@@ -93,15 +101,16 @@ type Column msg
 
 
 -}
-column : List Style -> List (Html msg) -> Column msg
-column styles children =
-    Html.node "column"
-        [ columnStyles styles ]
-        children
-        |> Column
+col : List Style -> List (Html msg) -> Col msg
+col styles children =
+    { styles = styles 
+    , attrs = [] 
+    , body = ColBody children
+    } 
 
 
-{-| `Column`s naturally fill up horizontal space. Adding `columnShrink` to a column will make it do the opposite, and shrink by default.
+
+{-| `Col`s naturally fill up horizontal space. Adding `colShrink` to a column will make it do the opposite, and shrink by default.
 
     Grid.row
         []
@@ -119,8 +128,8 @@ column styles children =
     -- | ---------------------- Row -------------------|
 
 -}
-columnShrink : Style
-columnShrink =
+colShrink : Style
+colShrink =
     flex (int 0)
 
 
@@ -143,22 +152,23 @@ columnShrink =
         ]
 
 -}
-exactWidthColumn : LengthOrAuto compatible -> Style
-exactWidthColumn width_ =
+exactWidthCol : LengthOrAuto compatible -> Style
+exactWidthCol width_ =
     [ flex none
     , width width_
     ]
         |> Css.batch
 
 
-{-| The same as a regular `column`, but with keyed content ( (See Html.Styled.Keyed for more info)[<https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed>] )
+{-| The same as a regular `col`, but with keyed content ( (See Html.Styled.Keyed for more info)[<https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed>] )
 -}
-keyedColumn : List Style -> List ( String, Html msg ) -> Column msg
-keyedColumn styles children =
-    Html.Styled.Keyed.node "column"
-        [ columnStyles styles ]
-        children
-        |> Column
+keyedCol : List Style -> List ( String, Html msg ) -> Col msg
+keyedCol styles children =
+    { styles = styles 
+    , attrs = [] 
+    , body = KeyedCol children
+    } 
+
 
 
 columnStyles : List Style -> Attribute msg
@@ -170,20 +180,45 @@ columnStyles styles =
         , Css.batch styles
         ]
 
+{-| Add some `Html.Attribute msg`s to a `Col msg`. Mainly useful for adding event handlers like click events. -}
+colWithAttrs : List (Attribute msg) -> Col msg -> Col msg 
+colWithAttrs attrs c =
+    { styles = c.styles 
+    , attrs = attrs ++ c.attrs
+    , body = c.body
+    }
 
-{-| Just like `Html.map`, except for `Column`
+{-| Just like `Html.map`, except for `Col`
 -}
-mapColumn : (a -> b) -> Column a -> Column b
-mapColumn f (Column html) =
-    Column <| Html.map f html
+mapCol : (a -> b) -> Col a -> Col b
+mapCol f c =
+    { styles = c.styles
+    , attrs = List.map (Attr.map f) c.attrs
+    , body =
+        case c.body of 
+            ColBody html ->
+                ColBody <| List.map (Html.map f) html
+
+            KeyedCol html ->
+                KeyedCol <| List.map (Tuple.mapSecond (Html.map f)) html
+    }
 
 
-columnToHtml : Column msg -> Html msg
-columnToHtml (Column html) =
-    html
 
+colToHtml : Col msg -> Html msg
+colToHtml c =
+    case c.body of 
+        ColBody html ->
+            Html.node "column"
+                (columnStyles c.styles :: c.attrs)
+                html 
 
-{-| A row in a grid. Sequential rows will stack vertically. A row takes a `List (Column msg)`, NOT `List (Html msg)`. `Column msg` inside the `row` are arranged horizontally.
+        KeyedCol html ->
+            Html.Styled.Keyed.node "column"
+                (columnStyles c.styles :: c.attrs)
+                html 
+
+{-| A row in a grid. Sequential rows will stack vertically. A row takes a `List (Col msg)`, NOT `List (Html msg)`. `Col msg` inside the `row` are arranged horizontally.
 
     -- rows are styled with the css:
     --     display: flex;
@@ -192,20 +227,20 @@ columnToHtml (Column html) =
 
 
 -}
-row : List Style -> List (Column msg) -> Html msg
+row : List Style -> List (Col msg) -> Html msg
 row styles columns =
     Html.node "row"
         [ rowStyles styles ]
-        (List.map columnToHtml columns)
+        (List.map colToHtml columns)
 
 
 {-| The same as a regular `row`, but with keyed columns ( (See Html.Styled.Keyed for more info)[<https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Keyed>] )
 -}
-keyedRow : List Style -> List ( String, Column msg ) -> Html msg
+keyedRow : List Style -> List ( String, Col msg ) -> Html msg
 keyedRow styles columns =
     Html.Styled.Keyed.node "row"
         [ rowStyles styles ]
-        (List.map (Tuple.mapSecond columnToHtml) columns)
+        (List.map (Tuple.mapSecond colToHtml) columns)
 
 
 rowStyles : List Style -> Attribute msg
@@ -221,8 +256,8 @@ rowStyles extraStyles =
 
     Grid.box
         [ Css.width (pct 100) ]
-        [ Grid.row [] [ Grid.column [] [] ]
-        , Grid.row [] [ Grid.column [] [] ]
+        [ Grid.row [] [ Grid.col [] [] ]
+        , Grid.row [] [ Grid.col [] [] ]
         ]
 
 -}
