@@ -17,13 +17,13 @@ main =
         []
         [ Grid.row
             []
-            [ Grid.column
+            [ Grid.col
                 []
                 [ box
                     green
                     "row with two columns of even width"
                 ]
-            , Grid.column
+            , Grid.col
                 []
                 [ box
                     yellow
@@ -32,7 +32,7 @@ main =
             ]
         , Grid.row
             [ height (px 50) ]
-            [ Grid.column
+            [ Grid.col
                 []
                 [ box
                     gray
@@ -41,25 +41,25 @@ main =
             ]
         , Grid.row
             []
-            [ Grid.column
+            [ Grid.col
                 []
                 [ box
                     blue
                     "A grid inside a grid ->"
                 ]
-            , Grid.column
+            , Grid.col
                 []
                 [ Grid.box
-                    [ Grid.exactWidthColumn (pct 100) ]
+                    [ Grid.exactWidthcol (pct 100) ]
                     [ Grid.row
                         []
-                        [ Grid.column
+                        [ Grid.col
                             []
                             [ box
                                 green
                                 "upper left"
                             ]
-                        , Grid.column
+                        , Grid.col
                             []
                             [ box
                                 blue
@@ -68,13 +68,13 @@ main =
                         ]
                     , Grid.row
                         []
-                        [ Grid.column
+                        [ Grid.col
                             []
                             [ box
                                 gray
                                 "center left"
                             ]
-                        , Grid.column
+                        , Grid.col
                             []
                             [ box
                                 green
@@ -83,13 +83,13 @@ main =
                         ]
                     , Grid.row
                         []
-                        [ Grid.column
+                        [ Grid.col
                             []
                             [ box
                                 yellow
                                 "lower left"
                             ]
-                        , Grid.column
+                        , Grid.col
                             []
                             [ box
                                 gray
@@ -101,19 +101,19 @@ main =
             ]
         , Grid.row
             []
-            [ Grid.column
+            [ Grid.col
                 [ height (px 50) ]
                 [ box
                     yellow
                     "rows with columns of differing heights are as tall as their tallest column"
                 ]
-            , Grid.column
+            , Grid.col
                 [ height (px 25) ]
                 [ box
                     green
                     "this column is explicitly 25px tall"
                 ]
-            , Grid.column
+            , Grid.col
                 []
                 [ box
                     blue
@@ -122,13 +122,13 @@ main =
             ]
         , Grid.row
             []
-            [ Grid.column
+            [ Grid.col
                 [ margin (px 10) ]
                 [ box
                     yellow
                     "columns with varying margins are vertically centered"
                 ]
-            , Grid.column
+            , Grid.col
                 [ margin (px 5) ]
                 [ box
                     gray
@@ -137,27 +137,27 @@ main =
             ]
         , Grid.row
             [ height (px 75) ]
-            [ Grid.column
+            [ Grid.col
                 []
                 [ box
                     green
                     "columns with an explicit width stay that width, while the others grow to fill availabile horizontal space"
                 ]
-            , Grid.column
-                [ Grid.exactWidthColumn (px 200)
+            , Grid.col
+                [ Grid.exactWidthcol (px 200)
                 ]
                 [ box
                     blue
                     "200px width"
                 ]
-            , Grid.column
+            , Grid.col
                 []
                 [ box
                     green
                     "columns with an explicit width stay that width, while the others grow to fill availabile horizontal space"
                 ]
-            , Grid.column
-                [ Grid.exactWidthColumn (px 100)
+            , Grid.col
+                [ Grid.exactWidthcol (px 100)
                 ]
                 [ box
                     blue
@@ -166,15 +166,15 @@ main =
             ]
         , Grid.row
             [ height (px 75) ]
-            [ Grid.column
-                [ Grid.exactWidthColumn (pct 66.67)
+            [ Grid.col
+                [ Grid.exactWidthcol (pct 66.67)
                 ]
                 [ box
                     yellow
                     "columns can be given relative widths like 66.67%"
                 ]
-            , Grid.column
-                [ Grid.exactWidthColumn (pct 33.33)
+            , Grid.col
+                [ Grid.exactWidthcol (pct 33.33)
                 ]
                 [ box
                     gray
