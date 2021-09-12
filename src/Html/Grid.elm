@@ -18,19 +18,19 @@ module Html.Grid exposing
             [ width (pct 100) ]
             [ Grid.row
                 []
-                [ Grid.column
+                [ Grid.col
                     []
                     [ Html.text "Hello from upper left corner" ]
-                , Grid.column
+                , Grid.col
                     []
                     [ Html.text "Hello from upper right corner" ]
                 ]
             , Grid.row
                 []
-                [ Grid.column
+                [ Grid.col
                     []
                     [ Html.text "Hello from lower left corner" ]
-                , Grid.column
+                , Grid.col
                     []
                     [ Html.text "Hello from lower right corner" ]
                 ]
@@ -114,11 +114,11 @@ col styles children =
 
     Grid.row
         []
-        [ Grid.column
+        [ Grid.col
             []
             [ searchField model.searchFieldModel ]
-        , Grid.column
-            [ Grid.columnShrink ]
+        , Grid.col
+            [ Grid.colShrink ]
             [ searchButton "Search" SearchClicked ]
         ]
 
@@ -137,17 +137,17 @@ colShrink =
 
     Grid.row
         []
-        [ Grid.column
-            -- This column takes up exactly 50% of the rows width
-            [ Grid.exactWidthColumn (pct 50) ]
+        [ Grid.col
+            -- This col takes up exactly 50% of the rows width
+            [ Grid.exactWidthCol (pct 50) ]
             []
-        , Grid.column
+        , Grid.col
             -- This column takes whatever free horizontal space is available
             []
             []
-        , Grid.column
-            -- This column is exactly 100 pixels wide
-            [ Grid.exactWidthColumn (px 100) ]
+        , Grid.col
+            -- This col is exactly 100 pixels wide
+            [ Grid.exactWidthCol (px 100) ]
             []
         ]
 
