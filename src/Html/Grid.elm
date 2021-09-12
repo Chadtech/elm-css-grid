@@ -44,7 +44,7 @@ module Html.Grid exposing
 
 # Column
 
-@docs Col, mapCol, colWithAttrs
+@docs Col, col, mapCol, colWithAttrs
 
 
 # Column Styling
